@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:06:31 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/20 20:06:57 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:54:55 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_input(int argc, char **argv)
 	int	j;
 
 	if (argc < 5 || argc > 6)
-		return (error(ERR));
+		return (1);
 	i = 1;
 	while (argv[i])
 	{
@@ -32,7 +32,7 @@ int	check_input(int argc, char **argv)
 				continue;
 			}
 			if ((argv[i][j] < 48 || argv[i][j] > 57))
-				return(error(ERR));
+				return(printf("Errore negli input"));
 			j++;
 		}
 		i++;
