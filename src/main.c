@@ -6,17 +6,32 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:05:30 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/23 21:26:37 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/24 00:23:00 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/philo.h"
 #include <pthread.h>
 
-void *routine()
+/*
+◦ number_of_philosophers: The number of philosophers and also the number
+of forks.
+◦ time_to_die (in milliseconds):Se un filosofo non entra nello stato EAT entro time_to_die, dal suo
+	ultimo pranzo o dall'inizio della simulazione muore.
+◦ time_to_eat (in milliseconds): Il tempo che un filosofo rimane nello stato EAT,
+	per entrarci deve possedere 2 forks
+◦ time_to_sleep (in milliseconds): Tempo per il quale dorme
+◦ number_of_times_each_philosopher_must_eat (optional argument): Le volte che un filosofo deve mangiare
+							per far si che la simulazione termina.
+							Naturalmente, se un filosofo muore essa termina comunque.
+*/
+void *routine()   //credo che la routine vada implementata come segue:
+				  //Il filosofo, prova a prendere le due forchette
+				  //di conseguenza mangia per il tempo previsto STATUS 1
+				  //poi pensa per il tempo previsto STATUS 2
+				  //poi dorme per il tempo previsto STATUS 3
 {
-	printf("Thread creato");
-	return ((void*)0);
+
 }
 
 int main(int argc, char **argv)
@@ -27,6 +42,9 @@ int main(int argc, char **argv)
 		return (printf("Errore negli input"),1);
 	if(init(&data,argc,argv))
 		return (printf("Errore in init"),1);
+	if(data.nr_philo == 1) //necessariamente solo un filosofo dovrà morire
+							//dopo aver atteso il suo tempo di morte.
+		one_philo();
 }
 	//CODEVAULT SPIEGAZIONE THREAD E MUTEX
 /*	void* routine()

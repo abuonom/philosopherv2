@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:53:43 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/23 21:20:36 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/24 00:19:09 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@
 #include <pthread.h>
 #endif
 
+#define EAT 1
+#define SLEEP 2
+#define THINK 3
+#define DIED 4
 typedef struct s_philo
 {
+	int	p_id;
+	int status;
 	struct s_data *data;
 	pthread_t pn;
 }t_philo;
