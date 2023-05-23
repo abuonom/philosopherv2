@@ -6,24 +6,17 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:05:30 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/23 20:31:04 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:26:37 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/philo.h"
 #include <pthread.h>
 
-int mails = 0;
-pthread_mutex_t mutex;
-
-void* routine()
+void *routine()
 {
-	for(int i = 0; i < 10000000; i++)
-	{
-		pthread_mutex_lock(&mutex);
-		mails++;
-		pthread_mutex_unlock(&mutex);
-	}
+	printf("Thread creato");
+	return ((void*)0);
 }
 
 int main(int argc, char **argv)
