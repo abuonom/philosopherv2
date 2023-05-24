@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:56:52 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/23 23:36:53 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:06:35 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	init_tdata(t_data *data,int argc,char **argv)
 int alloc_tdata(t_data *data)
 {
 	data->philo = malloc(sizeof(t_philo) * data->nr_philo);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nr_philo);
 	if(!data->philo)
 		return (1);
 	return (0);
@@ -53,11 +54,33 @@ int init_thread(t_data *data)
 	int i = -1;
 	while(++i < data->nr_philo)
 	{
-		data->philo->p_id = i;
-		pthread_create(&data->philo[i].pn, NULL, &routine, NULL);
+		data->philo[i]->p_id = i;
+		data->philo[i].status = THINK;
+		pthread_create(&data->philo[i].tn, NULL, &routine, &data->philo[i].tn);
 	}
 	i = -1;
 	while(++i < data->nr_philo)
-		pthread_join(data->philo[i].pn, NULL);
+		pthread_join(data->philo[i].tn, NULL);
 	return (0);
+}
+
+int init_forks(t_data *data)
+{
+	int i = -1;
+
+	while(++i < data->nr_philo)
+		pthread_mutex_init(&data->forks[i], NULL);
+	i = -1;
+	while(++i < data->nr_philo)
+	{
+		if(i == data->nr_philo - 1)
+		{
+		data->philo[i]->l_fork = data->forks[i];
+		data->philo[i]->r_fork = data->forks[0];
+		}else
+		{
+		data->philo[i]->s_fork = data->forks[i];
+		data->philo[i]->r_fork = data->forks[i+1];
+		}
+	}
 }

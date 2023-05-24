@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:05:30 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/24 00:23:00 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:04:18 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,36 @@ of forks.
 							per far si che la simulazione termina.
 							Naturalmente, se un filosofo muore essa termina comunque.
 */
-void *routine()   //credo che la routine vada implementata come segue:
-				  //Il filosofo, prova a prendere le due forchette
-				  //di conseguenza mangia per il tempo previsto STATUS 1
-				  //poi pensa per il tempo previsto STATUS 2
-				  //poi dorme per il tempo previsto STATUS 3
-{
 
+
+
+//credo che la routine vada implementata come segue:
+//Il filosofo, prova a prendere le due forchette
+//di conseguenza mangia per il tempo previsto STATUS 1
+//poi pensa per il tempo previsto STATUS 2
+//poi dorme per il tempo previsto STATUS 3
+
+void eat(t_philo *philo)
+{
+	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(philo->r_fork);
+	philo->status = EAT;
+	printf("%llu ms %d is eating",get_time(),philo->p_id);
+	ft_usleep(philo->data->eat_time);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
+	philo->status = SLEEP;
+	ft_usleep(philo->data->sleep_time);
+}
+
+void *routine(t_philo *philo)
+{
+	while(philo->status != DEAD)
+	{
+	eat(philo);
+	printf("%llu ms %d is thinking",get_time(),philo->p_id);
+	ft_usleep(philo->data->think_time);
+	}
 }
 
 int main(int argc, char **argv)
