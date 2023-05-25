@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:56:52 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/24 17:06:35 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:12:54 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int init(t_data *data,int argc,char **argv)
 		return (1);
 	if(alloc_tdata(data))
 		return (1);
+	if(data->nr_philo == 1)
+		one_philo(data);
 	if(init_thread(data))
 		return (1);
 	return (0);
@@ -52,10 +54,15 @@ int alloc_tdata(t_data *data)
 int init_thread(t_data *data)
 {
 	int i = -1;
+	if (data->nr_eat > 0)
+	{
+		if (pthread_create(&t0, NULL, &monitor, &data->philos[0]))
+			return (1);
+	}
 	while(++i < data->nr_philo)
 	{
 		data->philo[i]->p_id = i;
-		data->philo[i].status = THINK;
+		data->philo[i]->status = THINK;
 		pthread_create(&data->philo[i].tn, NULL, &routine, &data->philo[i].tn);
 	}
 	i = -1;

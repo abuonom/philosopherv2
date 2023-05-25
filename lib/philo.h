@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:53:43 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/24 17:46:30 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:13:11 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
 {
 	int						nr_philo;
 	int						nr_eat;
+	unsigned long long int	start_time;
 	unsigned long long int	eat_time;
 	unsigned long long int	think_time;
 	unsigned long long int	sleep_time;
@@ -57,3 +58,5 @@ void* routine();
 int init_thread(t_data *data);
 unsigned long long int	get_time(void);
 int	ft_usleep(useconds_t time);
+int	one_philo(t_data data);
+void *monitor(t_data *data);
