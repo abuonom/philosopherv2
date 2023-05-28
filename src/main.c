@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:05:30 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/25 17:13:22 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:10:41 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@
 
 void *monitor(t_data *data)
 {
-	
+	int i;
+	i = 0;
+	while (data.end == 1)
+	{
+		data->philo[i].status;
+	}
 }
 
 void eat(t_philo *philo)

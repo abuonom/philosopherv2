@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:53:43 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/25 17:13:11 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:13:28 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_philo
 	pthread_t		tn;
 	pthread_mutex_t	r_fork;
 	pthread_mutex_t	l_fork;
+	unsigned long long int	death_time;
 }t_philo;
 
 typedef struct s_data
@@ -43,6 +44,7 @@ typedef struct s_data
 	unsigned long long int	sleep_time;
 	unsigned long long int	die_time;
 	pthread_mutex_t			*forks;
+	int						end;
 	t_philo *philo;
 }t_data;
 

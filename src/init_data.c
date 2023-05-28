@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:56:52 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/25 17:12:54 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:17:19 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,15 @@ int alloc_tdata(t_data *data)
 int init_thread(t_data *data)
 {
 	int i = -1;
-	if (data->nr_eat > 0)
-	{
-		if (pthread_create(&t0, NULL, &monitor, &data->philos[0]))
-			return (1);
-	}
+	pthread_t	m1;
+	if (pthread_create(&m1, NULL, &monitor, data))
+		return (1);
 	while(++i < data->nr_philo)
 	{
-		data->philo[i]->p_id = i;
-		data->philo[i]->status = THINK;
-		pthread_create(&data->philo[i].tn, NULL, &routine, &data->philo[i].tn);
+		data->philo[i].p_id = i;
+		data->philo[i].status = THINK;
+		data->philo[i].death_time = data->die_time;
+ 		pthread_create(&data->philo[i].tn, NULL, &routine, &data->philo[i].tn);
 	}
 	i = -1;
 	while(++i < data->nr_philo)
