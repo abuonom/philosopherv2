@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:05:30 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/28 20:10:41 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:07:02 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void *monitor(t_data *data)
 	i = 0;
 	while (data.end == 1)
 	{
-		data->philo[i].status;
+		if(data->philo)
+		if(data->philo[i].death_time == DEAD)
+			data.end = 1;
+		i++;
 	}
 }
 
@@ -45,6 +48,7 @@ void eat(t_philo *philo)
 	printf("%llu ms %d has taken a fork",get_time(),philo->p_id);
 	philo->status = EAT;
 	printf("%llu ms %d is eating",get_time(),philo->p_id);
+	philo->death_time = get_time() + philo->data->die_time;
 	ft_usleep(philo->data->eat_time);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
@@ -54,6 +58,7 @@ void eat(t_philo *philo)
 
 void *routine(t_philo *philo)
 {
+	philo->death_time = philo->data->die_time + get_time();
 	while(philo->status != DEAD)
 	{
 	eat(philo);
