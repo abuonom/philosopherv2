@@ -33,11 +33,11 @@ void *monitor(t_data *data)
 	i = 0;
 	while (data.end == 1)
 	{
-		if(data->philo)
-		if(data->philo[i].death_time == DEAD)
+		if (get_time() >= philo->time_to_die && philo->status != EAT)
 			data.end = 1;
 		i++;
 	}
+	printf("FUNZIONE CHE FA TERMINARE TUTTO");
 }
 
 void eat(t_philo *philo)
