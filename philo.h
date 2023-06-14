@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:46:57 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/14 17:07:24 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:18:09 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_philo
 	u_int64_t		last_eat;
 	u_int64_t		t_die;
 	bool			dead;
-	pthread_t		monitor_id;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	lock;
@@ -49,6 +48,7 @@ typedef struct s_data
 	int					dead;
 	int					finished;
 	pthread_t			*thread_id;
+	pthread_t			monitor_id;
 	t_philo				*philo;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		lock;

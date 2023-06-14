@@ -2,7 +2,7 @@ NAME = philo
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 
 Y = "\033[33m"
 R = "\033[31m"
@@ -13,7 +13,7 @@ UP = "\033[A"
 CUT = "\033[K"
 
 CFILES = main.c init.c utils.c \
-			threads.c \
+			threads.c checks.c\
 
 OBJECTS = $(CFILES:.c=.o)
 
