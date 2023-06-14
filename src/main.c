@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:05:30 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/31 15:07:02 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:14:39 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,35 @@ void *monitor(t_data *data)
 {
 	int i;
 	i = 0;
-	while (data.end == 1)
+	while (data->end == 0)
 	{
+<<<<<<< HEAD
+		if(data->philo[i].death_time <= get_time())
+		{
+			if(data->philo[i].status != EAT)
+				data->end = 1;
+		}
+=======
 		if (get_time() >= philo->time_to_die && philo->status != EAT)
 			data.end = 1;
 		i++;
+>>>>>>> 649de2a6a3e955623e1b2810b9b6bb3b76d3d6e7
 	}
 	printf("FUNZIONE CHE FA TERMINARE TUTTO");
 }
 
 void eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(&philo->l_fork);
 	printf("%llu ms %d has taken a fork",get_time(),philo->p_id);
-	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(&philo->r_fork);
 	printf("%llu ms %d has taken a fork",get_time(),philo->p_id);
 	philo->status = EAT;
 	printf("%llu ms %d is eating",get_time(),philo->p_id);
 	philo->death_time = get_time() + philo->data->die_time;
 	ft_usleep(philo->data->eat_time);
-	pthread_mutex_unlock(philo->l_fork);
-	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(&philo->l_fork);
+	pthread_mutex_unlock(&philo->r_fork);
 	philo->status = SLEEP;
 	ft_usleep(philo->data->sleep_time);
 }

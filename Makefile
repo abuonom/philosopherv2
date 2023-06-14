@@ -12,7 +12,7 @@ X = "\033[0m"
 UP = "\033[A"
 CUT = "\033[K"
 
-CFILES = src/main.c src/init_data.c src/check.c
+CFILES = src/main.c src/init_data.c src/check.c src/utils.c
 
 OBJECTS = $(CFILES:.c=.o)
 

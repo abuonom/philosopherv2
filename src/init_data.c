@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:56:52 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/05/31 15:05:24 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:11:31 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int init_thread(t_data *data)
 
 	i = -1;
 	data->start_time = get_time();
-	if (pthread_create(&m1, NULL, &monitor, data))
+	data->end = 0;
+	if (!(pthread_create(&m1, NULL, &monitor, data)))
 		return (1);
 	while(++i < data->nr_philo)
 	{
