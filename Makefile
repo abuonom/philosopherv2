@@ -1,58 +1,27 @@
-NAME = philo
+SOURCES = main.c\
+		utils.c\
+		checks.c\
+		init.c\
+		threads.c\
+
+OBJECTS = $(SOURCES:.c=.o)
 
 CC = gcc
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+all: philo
 
-CFLAGS = -Wall -Werror -Wextra -g -pthread
+philo: $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
 
-Y = "\033[33m"
-R = "\033[31m"
-G = "\033[32m"
-B = "\033[34m"
-X = "\033[0m"
-UP = "\033[A"
-CUT = "\033[K"
-
-CFILES = src/main.c src/init_data.c src/check.c src/utils.c
-
-OBJECTS = $(CFILES:.c=.o)
-
-all: libraries $(NAME)
-
-%.o : %.c
-	@echo $(Y)Compiling [$<]...$(X)
-	@$(CC) $(CFLAGS) -c -o $@ $<
-	@printf $(UP)$(CUT)
-
-libraries:
-#	@echo $(B)
-#	make -C $(LIBFT_PATH) all
-#	@echo $(B)
-#	make -C $(PRINTF_PATH) all
-
-$(NAME): $(OBJECTS)
-	@echo $(Y)Compiling [$(CFILES)]...$(X)
-	@echo $(G)Finished [$(CFILES)]$(X)
-	@echo
-	@echo $(Y)Compiling [$(NAME)]...$(X)
-	@$(CC) $(CFLAGS) $(LIBFT_LIB) $(PRINTF_LIB) $(OBJECTS) -o $(NAME)
-	@echo $(G)Finished [$(NAME)]$(X)
+%.o: %.c
+	$(CC) -c $(CFLAGS) $?
 
 clean:
-
-	@rm -f $(OBJECTS)
-	@echo $(R)Removed [$(OBJECTS)]$(X)
-	@echo $(R)Removed libraries.o$(X)
+	rm -f $(OBJECTS)
 
 fclean: clean
-
-	@rm -f $(NAME)
-	@echo $(R)Removed [$(NAME)]$(X)
+	rm -f philo
 
 re: fclean all
 
-norm:
-	norminette ft_printf utils checker
-
-#run:	all
-
-.PHONY: all clean fclean re norm
+.PHONY: all clean
