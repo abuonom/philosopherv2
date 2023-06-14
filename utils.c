@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/14 19:19:04 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:56:25 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ u_int64_t	get_time(void)
 void	messages(char *str, t_philo *philo)
 {
 	u_int64_t	time;
-
-	pthread_mutex_lock(&philo->data->lock);
 	time = get_time() - philo->data->start_time;
 	printf("%lu %d %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->lock);
 }
