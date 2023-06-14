@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/12 17:00:07 by lpicciri         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:03:08 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ void	messages(char *str, t_philo *philo)
 
 	pthread_mutex_lock(&philo->data->lock);
 	time = get_time() - philo->data->start_time;
-	printf("%llu %d %s\n", time, philo->id, str);
+	printf("%lu %d %s\n", time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->lock);
 }
