@@ -6,12 +6,12 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:05:30 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/06/12 18:14:39 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:48:33 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/philo.h"
-#include <pthread.h>
+
 
 /*
 ◦ number_of_times_each_philosopher_must_eat (optional argument): Le volte che un filosofo deve mangiare
@@ -27,25 +27,24 @@
 //poi pensa per il tempo previsto STATUS 2
 //poi dorme per il tempo previsto STATUS 3
 
-void *monitor(t_data *data)
+void *monitor(void *data_2)
 {
 	int i;
 	i = 0;
+	t_data *data = (t_data *)data_2;
 	while (data->end == 0)
 	{
-<<<<<<< HEAD
 		if(data->philo[i].death_time <= get_time())
 		{
 			if(data->philo[i].status != EAT)
 				data->end = 1;
 		}
-=======
-		if (get_time() >= philo->time_to_die && philo->status != EAT)
-			data.end = 1;
+		if (get_time() >= data->philo[i].death_time && data->philo[i].status != EAT)
+			data->end = 1;
 		i++;
->>>>>>> 649de2a6a3e955623e1b2810b9b6bb3b76d3d6e7
 	}
 	printf("FUNZIONE CHE FA TERMINARE TUTTO");
+	return (NULL);
 }
 
 void eat(t_philo *philo)
@@ -64,8 +63,9 @@ void eat(t_philo *philo)
 	ft_usleep(philo->data->sleep_time);
 }
 
-void *routine(t_philo *philo)
+void *routine(void *philo_2)
 {
+	t_philo *philo = (t_philo *)philo_2;
 	philo->death_time = philo->data->die_time + get_time();
 	while(philo->status != DEAD)
 	{
@@ -73,6 +73,7 @@ void *routine(t_philo *philo)
 	printf("%llu ms %d is thinking",get_time(),philo->p_id);
 	ft_usleep(philo->data->think_time);
 	}
+	return (NULL);
 }
 
 int main(int argc, char **argv)

@@ -6,11 +6,12 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:56:52 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/06/12 18:11:31 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:48:36 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lib/philo.h"
+
 
 //number_of_philosophers time_to_die time_to_eat time_to_sleep
 //[number_of_times_each_philosopher_must_eat]
@@ -23,6 +24,8 @@ int init(t_data *data,int argc,char **argv)
 		return (1);
 	if(data->nr_philo == 1)
 		one_philo(data);
+	if(init_forks(data))
+		return (1);
 	if(init_thread(data))
 		return (1);
 	return (0);
@@ -66,7 +69,7 @@ int init_thread(t_data *data)
 		data->philo[i].p_id = i;
 		data->philo[i].status = THINK;
 		data->philo[i].death_time = data->die_time;
- 		pthread_create(&data->philo[i].tn, NULL, &routine, &data->philo[i].tn);
+ 		pthread_create(&data->philo[i].tn, NULL, &routine, &data->philo[i]);
 	}
 	i = -1;
 	while(++i < data->nr_philo)
@@ -85,12 +88,13 @@ int init_forks(t_data *data)
 	{
 		if(i == data->nr_philo - 1)
 		{
-		data->philo[i]->l_fork = data->forks[i];
-		data->philo[i]->r_fork = data->forks[0];
+		data->philo[i].l_fork = data->forks[i];
+		data->philo[i].r_fork = data->forks[0];
 		}else
 		{
-		data->philo[i]->s_fork = data->forks[i];
-		data->philo[i]->r_fork = data->forks[i+1];
+		data->philo[i].l_fork = data->forks[i];
+		data->philo[i].r_fork = data->forks[i+1];
 		}
 	}
+	return (0);
 }
