@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:56:52 by abuonomo          #+#    #+#             */
-/*   Updated: 2023/06/14 15:48:36 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:59:33 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ int init_thread(t_data *data)
 	i = -1;
 	data->start_time = get_time();
 	data->end = 0;
-	if (!(pthread_create(&m1, NULL, &monitor, data)))
+	if ((pthread_create(&m1, NULL, &monitor, data)))
 		return (1);
+	printf("DIOPORCO");
 	while(++i < data->nr_philo)
 	{
 		data->philo[i].p_id = i;
