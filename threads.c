@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/15 12:54:12 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:43:48 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,31 @@ void	eat(t_philo *philo)
 	messages("has taken a fork", philo);
 	pthread_mutex_lock(&philo->lock);
 	philo->eaten++;
+	philo->eating = 1;
+	philo->last_eat = get_time();
 	messages("is eating", philo);
 	ft_usleep(philo->data->t_eat);
-	philo->last_eat = get_time();
 	pthread_mutex_unlock(&philo->lock);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
 	messages("is sleeping", philo);
 	ft_usleep(philo->data->t_sleep);
+	messages("is thinking", philo);
 }
 
 void	*monitor(void *arg)
 {
-	t_data	*data;
-	data = (t_data *) arg;
-	int		i;
-
-	i = 0;
-	printf("monitor\n");
-	while (data->dead == 0)
+	t_philo	*philo;
+	philo = (t_philo *) arg;
+	while (1)
 	{
-		printf("I=%d, %d \n",i,data->philo[i].eaten);
-		if (data->philo[i].eaten >= 1 && (get_time() - data->philo[i].last_eat) > data->t_die)
+		if (philo->eating == 0 && (get_time() - philo->last_eat) > philo->data->t_die)
 		{
-			data->finished = 1;
-			data->dead = i;
+			philo->data->dead = true;
+			messages("is died",philo);
+			ft_usleep(10000);
 			return(NULL);
 		}
-		i++;
-		if(i == data->n_philo)
-			i = 0;
 	}
 	return(NULL);
 }
@@ -59,8 +54,9 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *) arg;
+	pthread_create(&philo->monitor_id, NULL, &monitor, philo);
 	philo->eaten = 0;
-	while(philo->dead == false && philo->eaten != philo->data->n_eat)
+	while(philo->data->dead == false && philo->eaten != philo->data->n_eat)
 	{
 		eat(philo);
 	}
@@ -73,12 +69,10 @@ int	init_threads(t_data *data)
 
 	i = -1;
 	data->start_time = get_time();
-	pthread_create(&data->monitor_id, NULL, &monitor, data);
 	while (++i < data->n_philo)
 		pthread_create(&data->thread_id[i], NULL, &routine, &data->philo[i]);
 	i = -1;
 	while (++i < data->n_philo)
 		pthread_join(data->thread_id[i], NULL);
-	pthread_join(data->monitor_id, NULL);
 	return (0);
 }
