@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 20:04:18 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:21:15 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ void	messages(char *str, t_philo *philo)
 
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start_time;
-	if(philo->data->dead == 0)
+	if (ft_strcmp("is dead", str) == 0 && philo->data->dead == 0)
+	{
+		printf("%lu %d %s\n", time, philo->id, str);
+		philo->data->dead = 1;
+	}
+	if (!philo->data->dead)
 		printf("%lu %d %s\n", time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->write);
 }

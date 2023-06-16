@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:46:57 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 20:04:16 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:21:47 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ int			ft_usleep(useconds_t time);
 u_int64_t	get_time(void);
 void		messages(char *str, t_philo *philo);
 void		free_all(t_data *data);
+int			ft_strcmp(char *s1, char *s2);
 
 #endif

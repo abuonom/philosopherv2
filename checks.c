@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:47:32 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 18:42:17 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:21:36 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,25 @@ int	check_args(int argc, char **argv)
 
 void free_all(t_data *data)
 {
-	if (data->thread_id)
-		free(data->thread_id);
-	if (data->forks)
-		free(data->forks);
+	int	i;
+
+	i = -1;
+	while (++i < data->n_philo)
+		pthread_mutex_destroy(&data->forks[i]);
+	pthread_mutex_destroy(&data->write);
+	pthread_mutex_destroy(&data->lock);
 	if (data->philo)
 		free(data->philo);
+	if (data->forks)
+		free(data->forks);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	while (*s1 != '\0' && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*(char *)s1 - *(char *)s2);
 }

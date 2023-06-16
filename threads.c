@@ -6,34 +6,39 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 21:47:01 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:51:56 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 void *monitor(void *args)
 {
-	t_philo *philo = (t_philo *)args;
-	while(philo->data->finished)
+	t_philo	*philo;
+
+	philo = (t_philo *) args;
+	while (philo->data->dead == 0)
 	{
-		if(philo->eaten != philo->data->n_eat)
-			philo->data->finished = 1;
-		if(get_time() - philo->last_eat > philo->t_die && philo->eating == 0)
+		pthread_mutex_lock(&philo->lock);
+		if (get_time() - philo->last_eat >= philo->t_die && philo->eating == 0)
+			messages("is dead", philo);
+		if (philo->eaten == philo->data->n_eat)
 		{
-			messages("is died",philo);
-			philo->data->finished = 1;
+			pthread_mutex_lock(&philo->data->lock);
+			philo->data->finished++;
+			philo->eaten++;
+			pthread_mutex_unlock(&philo->data->lock);
 		}
+		pthread_mutex_unlock(&philo->lock);
 	}
 	return NULL;
 }
-
 void eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_fork);
 	messages("take L FORK",philo);
 	pthread_mutex_lock(philo->r_fork);
-	messages("take R FORK",philo);
 	pthread_mutex_lock(&philo->lock);
+	messages("take R FORK",philo);
 	philo->eaten++;
 	philo->eating = 1;
 	philo->last_eat = get_time();
@@ -42,10 +47,9 @@ void eat(t_philo *philo)
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 	philo->eating = 0;
-	pthread_mutex_unlock(philo->lock);
+	pthread_mutex_unlock(&philo->lock);
 	messages("is sleeping",philo);
 	ft_usleep(philo->data->t_sleep);
-	messages("is thinking",philo);
 }
 
 void *routine(void *args)
@@ -56,7 +60,9 @@ void *routine(void *args)
 	while(philo->data->finished == 0)
 	{
 		eat(philo);
+		messages("is thinking",philo);
 	}
+	pthread_join(philo->monitor_id,NULL);
 	return (NULL);
 }
 

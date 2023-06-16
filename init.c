@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 20:05:47 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/16 22:51:58 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ int	init(t_data *data, char **argv)
 		return (-1);
 	if (init_threads(data) == -1)
 		return (-1);
+	free_all(data);
 	return (0);
 }
