@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/15 19:38:50 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:37:11 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	messages(char *str, t_philo *philo)
 {
 	u_int64_t	time;
 
-	pthread_mutex_lock(&philo->data->lock);
+	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start_time;
-	if(philo->dead == 1)
+	if(philo->data->dead == 0)
 		printf("%lu %d %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->lock);
+	pthread_mutex_unlock(&philo->data->write);
 }

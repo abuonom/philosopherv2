@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:47:32 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/05/29 17:29:34 by lpicciri         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:42:17 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,14 @@ int	check_args(int argc, char **argv)
 	if (only_digits(argv) == -1)
 		return (-1);
 	return (0);
+}
+
+void free_all(t_data *data)
+{
+	if (data->thread_id)
+		free(data->thread_id);
+	if (data->forks)
+		free(data->forks);
+	if (data->philo)
+		free(data->philo);
 }
