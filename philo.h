@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:46:57 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 19:15:27 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:04:16 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,25 @@ typedef struct s_philo
 {
 	struct s_data	*data;
 	int				id;
-	int				eaten;
-	int				eating;
-	u_int64_t		last_eat;
-	u_int64_t		t_die;
-	bool			dead;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	lock;
-	pthread_t		monitor_id;
+	int				eaten; //quante volte mangia
+	int				eating; //per sapere se sta mangiando o meno
+	u_int64_t		last_eat; //ultimo orario in cui ha mangiato
+	u_int64_t		t_die; //tempo che deve passare da last_eat prima che muoia
+	pthread_mutex_t	*l_fork; //forchetta sinistra
+	pthread_mutex_t	*r_fork; //forchetta destra
+	pthread_mutex_t	lock; //mutex che implica che sta mangiando
+	pthread_t		monitor_id; //monitor associato al filosofo
 }	t_philo;
 
 typedef struct s_data
 {
-	int					n_philo;
-	u_int64_t			t_die;
-	u_int64_t			t_eat;
-	u_int64_t			t_sleep;
-	u_int64_t			start_time;
-	int					n_eat;
-	int					dead;
+	int					n_philo; //numero di philo
+	u_int64_t			t_die; //tempo alla morte (presente anche in t_philo)
+	u_int64_t			t_eat; //tempo che deve impiegare a mangiare
+	u_int64_t			t_sleep; //tempo che deve impiegare a dormire
+	u_int64_t			start_time; //ora di inizio del programma
+	int					n_eat; //numero di volte che deve mangiare un filosofo
+	int					dead; //variabile di stato per definire se un filosofo e' morto
 	int					finished;
 	pthread_t			*thread_id;
 	t_philo				*philo;
@@ -66,7 +65,6 @@ void		eat(t_philo *philo);
 int			ft_usleep(useconds_t time);
 u_int64_t	get_time(void);
 void		messages(char *str, t_philo *philo);
-void		*monitor(void *void_data);
 void		free_all(t_data *data);
 
 #endif

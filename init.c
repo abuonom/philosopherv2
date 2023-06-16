@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 19:48:37 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:05:47 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	init_data(t_data *data, char **argv)
 	data->t_die = (uint64_t)ft_atoi(argv[2]);
 	data->t_eat = (uint64_t)ft_atoi(argv[3]);
 	data->t_sleep = (uint64_t)ft_atoi(argv[4]);
+	data->dead = 0;
+	data->finished = 0;
+	pthread_mutex_init(&data->write, NULL);
+	pthread_mutex_init(&data->lock, NULL);
 	if (argv[5])
 		data->n_eat = ft_atoi(argv[5]);
 	else
 		data->n_eat = -1;
-	data->dead = 0;
-	data->finished = 0;
-	pthread_mutex_init(&data->lock, NULL);
-	pthread_mutex_init(&data->write, NULL);
 	return (0);
 }
 
@@ -72,7 +72,6 @@ int	init_philo_data(t_data *data)
 		data->philo[i].id = i + 1;
 		data->philo[i].eaten = 0;
 		data->philo[i].t_die = data->t_die;
-		data->philo[i].dead = 0;
 		data->philo[i].last_eat = get_time();
 		if (pthread_mutex_init(&data->philo[i].lock, NULL))
 			return(-1);
