@@ -72,12 +72,12 @@ void	messages(char *str, t_philo *philo)
 
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start_time;
-	if (ft_strcmp("is dead", str) == 0 && philo->data->dead == 0)
+	if (ft_strcmp("died", str) == 0 && philo->data->finished == 0)
 	{
 		printf("%lu %d %s\n", time, philo->id, str);
-		philo->data->dead = 1;
+		philo->data->finished = 1;
 	}
-	if (!philo->data->dead)
+	if (philo->data->finished != 1)
 		printf("%lu %d %s\n", time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->write);
 }

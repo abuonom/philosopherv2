@@ -45,8 +45,8 @@ typedef struct s_data
 	u_int64_t			t_sleep; //tempo che deve impiegare a dormire
 	u_int64_t			start_time; //ora di inizio del programma
 	int					n_eat; //numero di volte che deve mangiare un filosofo
-	int					dead; //variabile di stato per definire se un filosofo e' morto
-	int					finished;
+	int					finished; //variabile che definisce se un filosofo e' morto oppure ha mangiato tot volte
+	int					enough;
 	pthread_t			*thread_id;
 	t_philo				*philo;
 	pthread_mutex_t		*forks;
@@ -67,5 +67,7 @@ u_int64_t	get_time(void);
 void		messages(char *str, t_philo *philo);
 void		free_all(t_data *data);
 int			ft_strcmp(char *s1, char *s2);
+int			case_one(t_data *data);
+void 		*routine(void *args);
 
 #endif

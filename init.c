@@ -18,8 +18,8 @@ int	init_data(t_data *data, char **argv)
 	data->t_die = (uint64_t)ft_atoi(argv[2]);
 	data->t_eat = (uint64_t)ft_atoi(argv[3]);
 	data->t_sleep = (uint64_t)ft_atoi(argv[4]);
-	data->dead = 0;
 	data->finished = 0;
+	data->enough = 0;
 	pthread_mutex_init(&data->write, NULL);
 	pthread_mutex_init(&data->lock, NULL);
 	if (argv[5])
@@ -50,13 +50,15 @@ int	init_forks(t_data *data)
 	i = -1;
 	while (++i < data->n_philo)
 		pthread_mutex_init(&data->forks[i], NULL);
+	i = 0;
 	data->philo[0].l_fork = &data->forks[0];
 	data->philo[0].r_fork = &data->forks[data->n_philo - 1];
-	i = 0;
-	while (++i < data->n_philo)
+	i = 1;
+	while (i < data->n_philo)
 	{
 		data->philo[i].l_fork = &data->forks[i];
 		data->philo[i].r_fork = &data->forks[i - 1];
+		i++;
 	}
 	return (0);
 }
@@ -90,8 +92,10 @@ int	init(t_data *data, char **argv)
 		return (-1);
 	if (init_forks (data) == -1)
 		return (-1);
+	if(data->n_philo == 1)
+		return(case_one(data));
 	if (init_threads(data) == -1)
 		return (-1);
-	free_all(data);
+	//free_all(data);
 	return (0);
 }

@@ -16,16 +16,22 @@ void *monitor(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *) args;
-	while (philo->data->dead == 0)
+	while (philo->data->finished == 0)
 	{
 		pthread_mutex_lock(&philo->lock);
 		if (get_time() - philo->last_eat >= philo->t_die && philo->eating == 0)
-			messages("is dead", philo);
+			messages("died", philo);
 		if (philo->eaten == philo->data->n_eat)
 		{
 			pthread_mutex_lock(&philo->data->lock);
-			philo->data->finished++;
+			philo->data->enough++;
 			philo->eaten++;
+			pthread_mutex_unlock(&philo->data->lock);
+		}
+		if(philo->data->enough == philo->data->n_philo)
+		{
+			pthread_mutex_lock(&philo->data->lock);
+			philo->data->finished = 1;
 			pthread_mutex_unlock(&philo->data->lock);
 		}
 		pthread_mutex_unlock(&philo->lock);
@@ -34,20 +40,20 @@ void *monitor(void *args)
 }
 void eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
-	messages("take L FORK",philo);
 	pthread_mutex_lock(philo->r_fork);
+	messages("has taken a fork",philo);
+	pthread_mutex_lock(philo->l_fork);
+	messages("has taken a fork",philo);
 	pthread_mutex_lock(&philo->lock);
-	messages("take R FORK",philo);
-	philo->eaten++;
 	philo->eating = 1;
 	philo->last_eat = get_time();
 	messages("is eating",philo);
+	philo->eaten++;
 	ft_usleep(philo->data->t_eat);
-	pthread_mutex_unlock(philo->l_fork);
-	pthread_mutex_unlock(philo->r_fork);
 	philo->eating = 0;
 	pthread_mutex_unlock(&philo->lock);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
 	messages("is sleeping",philo);
 	ft_usleep(philo->data->t_sleep);
 }
@@ -73,8 +79,11 @@ int	init_threads(t_data *data)
 	i = -1;
 	data->start_time = get_time();
 	while (++i < data->n_philo)
+	{
 		if(pthread_create(&data->thread_id[i], NULL, &routine, &data->philo[i]))
 			return (-1);
+		ft_usleep(1);
+	}
 	i = -1;
 	while (++i < data->n_philo)
 		pthread_join(data->thread_id[i], NULL);

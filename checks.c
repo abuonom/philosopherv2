@@ -50,11 +50,17 @@ void free_all(t_data *data)
 {
 	int	i;
 
-	i = -1;
-	while (++i < data->n_philo)
+	i = 0;
+	while (i < data->n_philo)
+	{
 		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philo[i].lock);
+		i++;
+	}
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->lock);
+	if(data->thread_id)
+		free(data->thread_id);
 	if (data->philo)
 		free(data->philo);
 	if (data->forks)
