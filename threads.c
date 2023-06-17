@@ -91,6 +91,5 @@ int	init_threads(t_data *data)
 	i = -1;
 	while (++i < data->n_philo)
 		pthread_join(data->thread_id[i], NULL);
-	free_all(data);
 	return (0);
 }
