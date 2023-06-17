@@ -46,7 +46,7 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
-void free_all(t_data *data)
+void	free_all(t_data *data)
 {
 	int	i;
 
@@ -59,7 +59,7 @@ void free_all(t_data *data)
 	}
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->lock);
-	if(data->thread_id)
+	if (data->thread_id)
 		free(data->thread_id);
 	if (data->philo)
 		free(data->philo);

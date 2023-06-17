@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-void *monitor(void *args)
+
+void	*monitor(void *args)
 {
 	t_philo	*philo;
 
@@ -28,7 +29,7 @@ void *monitor(void *args)
 			philo->eaten++;
 			pthread_mutex_unlock(&philo->data->lock);
 		}
-		if(philo->data->enough == philo->data->n_philo)
+		if (philo->data->enough == philo->data->n_philo)
 		{
 			pthread_mutex_lock(&philo->data->lock);
 			philo->data->finished = 1;
@@ -36,39 +37,41 @@ void *monitor(void *args)
 		}
 		pthread_mutex_unlock(&philo->lock);
 	}
-	return NULL;
+	return (NULL);
 }
-void eat(t_philo *philo)
+
+void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->r_fork);
-	messages("has taken a fork",philo);
+	messages("has taken a fork", philo);
 	pthread_mutex_lock(philo->l_fork);
-	messages("has taken a fork",philo);
+	messages("has taken a fork", philo);
 	pthread_mutex_lock(&philo->lock);
 	philo->eating = 1;
 	philo->last_eat = get_time();
-	messages("is eating",philo);
+	messages("is eating", philo);
 	philo->eaten++;
 	ft_usleep(philo->data->t_eat);
 	philo->eating = 0;
 	pthread_mutex_unlock(&philo->lock);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
-	messages("is sleeping",philo);
+	messages("is sleeping", philo);
 	ft_usleep(philo->data->t_sleep);
 }
 
-void *routine(void *args)
+void	*routine(void *args)
 {
-	t_philo *philo = (t_philo *)args;
+	t_philo	*philo;
 
-	pthread_create(&philo->monitor_id,NULL, &monitor,philo);
-	while(philo->data->finished == 0)
+	philo = (t_philo *)args;
+	pthread_create(&philo->monitor_id, NULL, &monitor, philo);
+	while (philo->data->finished == 0)
 	{
 		eat(philo);
-		messages("is thinking",philo);
+		messages("is thinking", philo);
 	}
-	pthread_join(philo->monitor_id,NULL);
+	pthread_join(philo->monitor_id, NULL);
 	return (NULL);
 }
 
@@ -80,7 +83,8 @@ int	init_threads(t_data *data)
 	data->start_time = get_time();
 	while (++i < data->n_philo)
 	{
-		if(pthread_create(&data->thread_id[i], NULL, &routine, &data->philo[i]))
+		if (pthread_create(&data->thread_id[i],
+				NULL, &routine, &data->philo[i]))
 			return (-1);
 		ft_usleep(1);
 	}

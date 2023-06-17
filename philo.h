@@ -27,25 +27,25 @@ typedef struct s_philo
 {
 	struct s_data	*data;
 	int				id;
-	int				eaten; //quante volte mangia
-	int				eating; //per sapere se sta mangiando o meno
-	u_int64_t		last_eat; //ultimo orario in cui ha mangiato
-	u_int64_t		t_die; //tempo che deve passare da last_eat prima che muoia
-	pthread_mutex_t	*l_fork; //forchetta sinistra
-	pthread_mutex_t	*r_fork; //forchetta destra
-	pthread_mutex_t	lock; //mutex che implica che sta mangiando
-	pthread_t		monitor_id; //monitor associato al filosofo
+	int				eaten;
+	int				eating;
+	u_int64_t		last_eat;
+	u_int64_t		t_die;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	lock;
+	pthread_t		monitor_id;
 }	t_philo;
 
 typedef struct s_data
 {
-	int					n_philo; //numero di philo
-	u_int64_t			t_die; //tempo alla morte (presente anche in t_philo)
-	u_int64_t			t_eat; //tempo che deve impiegare a mangiare
-	u_int64_t			t_sleep; //tempo che deve impiegare a dormire
-	u_int64_t			start_time; //ora di inizio del programma
-	int					n_eat; //numero di volte che deve mangiare un filosofo
-	int					finished; //variabile che definisce se un filosofo e' morto oppure ha mangiato tot volte
+	int					n_philo;
+	u_int64_t			t_die;
+	u_int64_t			t_eat;
+	u_int64_t			t_sleep;
+	u_int64_t			start_time;
+	int					n_eat;
+	int					finished;
 	int					enough;
 	pthread_t			*thread_id;
 	t_philo				*philo;
@@ -68,6 +68,6 @@ void		messages(char *str, t_philo *philo);
 void		free_all(t_data *data);
 int			ft_strcmp(char *s1, char *s2);
 int			case_one(t_data *data);
-void 		*routine(void *args);
+void		*routine(void *args);
 
 #endif

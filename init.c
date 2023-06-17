@@ -76,7 +76,7 @@ int	init_philo_data(t_data *data)
 		data->philo[i].t_die = data->t_die;
 		data->philo[i].last_eat = get_time();
 		if (pthread_mutex_init(&data->philo[i].lock, NULL))
-			return(-1);
+			return (-1);
 		i++;
 	}
 	return (0);
@@ -92,10 +92,10 @@ int	init(t_data *data, char **argv)
 		return (-1);
 	if (init_forks (data) == -1)
 		return (-1);
-	if(data->n_philo == 1)
-		return(case_one(data));
+	if (data->n_philo == 1)
+		return (case_one(data));
 	if (init_threads(data) == -1)
 		return (-1);
-	//free_all(data);
+	free_all(data);
 	return (0);
 }
