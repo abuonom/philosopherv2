@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 22:51:58 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:22:40 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	init_philo_data(t_data *data)
 		data->philo[i].data = data;
 		data->philo[i].id = i + 1;
 		data->philo[i].eaten = 0;
+		data->philo[i].eating = 0;
 		data->philo[i].t_die = data->t_die;
 		data->philo[i].last_eat = get_time();
 		if (pthread_mutex_init(&data->philo[i].lock, NULL))

@@ -6,7 +6,7 @@
 /*   By: abuonomo <abuonomo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/16 23:51:56 by abuonomo         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:20:04 by abuonomo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	*monitor(void *args)
 	while (philo->data->finished == 0)
 	{
 		pthread_mutex_lock(&philo->lock);
-		if (get_time() - philo->last_eat >= philo->t_die && philo->eating == 0)
+		if ((get_time() - philo->last_eat) >= philo->t_die
+			&& philo->eating == 0)
 			messages("died", philo);
 		if (philo->eaten == philo->data->n_eat)
 		{
@@ -48,8 +49,8 @@ void	eat(t_philo *philo)
 	messages("has taken a fork", philo);
 	pthread_mutex_lock(&philo->lock);
 	philo->eating = 1;
-	philo->last_eat = get_time();
 	messages("is eating", philo);
+	philo->last_eat = get_time();
 	philo->eaten++;
 	ft_usleep(philo->data->t_eat);
 	philo->eating = 0;
@@ -83,10 +84,10 @@ int	init_threads(t_data *data)
 	data->start_time = get_time();
 	while (++i < data->n_philo)
 	{
+		ft_usleep(1);
 		if (pthread_create(&data->thread_id[i],
 				NULL, &routine, &data->philo[i]))
 			return (-1);
-		ft_usleep(1);
 	}
 	i = -1;
 	while (++i < data->n_philo)
